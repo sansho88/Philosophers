@@ -6,7 +6,7 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:17:48 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/04/12 14:01:30 by tgriffit         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:06:58 by tgriffit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philo{
 	suseconds_t		lifetime;
 	suseconds_t		resttime;
 	suseconds_t		starve; //Speed for eat
+	int				nb_meals;
 	bool			isalive;
 	struct timeval	birth;
 	struct timeval	lastmeal;
@@ -37,6 +38,8 @@ typedef struct s_philo{
 	struct s_fork	*nextfork;
 }	t_philo;
 
-
+int		ft_str_isdigit(char **str, size_t size);
+int		ft_isdigit(int c);
+int		ft_atoi(const char *str);
 
 #endif

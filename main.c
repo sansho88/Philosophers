@@ -6,7 +6,7 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 12:03:55 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/04/12 14:42:15 by tgriffit         ###   ########.fr       */
+/*   Updated: 2022/04/13 12:05:15 by tgriffit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,11 @@ void	myusleep(useconds_t time)
 {
 	struct timeval	temps;
 	useconds_t		start;
-	pthread_mutex_t	block;
 
 	gettimeofday(&temps, NULL);
 	start = temps.tv_usec;
-	while (temps.tv_usec - start < time) //TODO: YA LIDEE WSH
-		{
-	//	printf("[%s]temps.tv_usec - start = %d - %d = %d\n", __func__, temps.tv_usec, start, temps.tv_usec - start);
-			gettimeofday(&temps, NULL);
-		}
+	while (temps.tv_usec - start < time)
+		gettimeofday(&temps, NULL);
 }
 
 void	print_act(t_philo philosoph, const char *act)
@@ -60,7 +56,7 @@ void	print_act(t_philo philosoph, const char *act)
 bool	eat(t_philo *philo, useconds_t time)
 {
 	struct timeval	timeofday;
-
+//TODO: replace fake forks by true mutex
 	gettimeofday(&timeofday, NULL);
 	while (!philo->fork.isfree && !philo->nextfork->isfree)
 	{
@@ -129,59 +125,98 @@ void	*routine(void *philosoph)
 	return (NULL);
 }
 
-void	parse_args(int argc, char **argv)
+bool	check_args(int argc, char **argv)
 {
-	if (argc < 4 || argc > 5)
+	if (argc < 5 || argc > 6)
 	{
 		puts("Correct usage: ./philo [number_of_philosophers] [time_to_die] "
 			"[time_to_eat] [time_to_sleep] "
-			"(number_of_times_each_philosopher_must_eat)");
-		return ;
+			"(number_of_times_each_philosopher_must_eat)\n");
+		return (false);
 	}
-	/*number_of_philosophers time_to_die time_to_eat
-	time_to_sleep
-	[number_of_times_each_philosopher_must_eat]*/
+	if (!ft_str_isdigit(argv + 1, argc - 1))
+	{
+		puts("At least one of the args isn't a number. "
+			"Be kind, philos aren't aliens.\n");
+		return (false);
+	}
+	return (true);
 }
 
-void	welcome_philos_in_cavern(t_philo *philo, size_t id, char **argv)
+/**
+ * Returns the amount of philosophers welcomed into the cavern.\n
+ * If something went wrong, nobody will be allowed.
+ * @param philo = Philosoph who will be checked
+ * @param id = his/her ID card
+ * @param argv
+ * @return
+ */
+size_t	welcome_philos(t_philo *philo, size_t id, char **argv, int argc)
 {
+	if (!check_args(argc, argv))
+		return (0);
 	philo->id = id;
-	philo->starve = 10;
+	philo->lifetime = ft_atoi(argv[2]);
+	philo->starve = ft_atoi(argv[3]);
+	philo->resttime = ft_atoi(argv[4]);
+	if (argc == 6)
+		philo->nb_meals = ft_atoi(argv[5]);
+	if (philo->lifetime <= 0 || philo->starve <= 0 || philo->resttime <= 0)
+		return (0);
 	philo->fork.isfree = true;
 	philo->isalive = true;
 	gettimeofday(&philo->lastmeal, NULL);
+	return ((size_t)ft_atoi(argv[1]));
+}
+
+void	get_away_corpses(size_t nb_philos, t_philo *cavern)
+{
+	size_t	corpses_cleaned;
+
+	corpses_cleaned = 0;
+	while (corpses_cleaned < nb_philos)
+	{
+		pthread_join(cavern[corpses_cleaned++].philo, NULL);
+	}
+	free(cavern);
+}
+
+void	chain_philos(size_t nb_philos, t_philo *cavern, int argc, char **argv)
+{
+	struct timeval	temps;
+	size_t			cuffs;
+
+	cuffs = 0;
+	gettimeofday(&temps, NULL);
+	while (cuffs < nb_philos)
+	{
+		if (!welcome_philos(&cavern[cuffs], cuffs + 1, argv, argc))
+			break ;
+		if (cuffs < nb_philos - 1 && nb_philos > 1)
+			cavern[cuffs].nextfork = &cavern[cuffs + 1].fork;
+		else
+			cavern[cuffs].nextfork = &cavern[0].fork;
+		cavern[cuffs].birth = temps;
+		pthread_create(&cavern[cuffs].philo, NULL, &routine, &cavern[cuffs]);
+		cuffs++;
+	}
 }
 
 int	main(int argc, char **argv)
 {
 	struct timeval	temps;
-	suseconds_t		start;
-	suseconds_t		end;
+	suseconds_t		times[2];
 	t_philo			*cavern;
-	size_t			i;
 	size_t			nb_philos;
 
-	nb_philos = 100;
+	nb_philos = ft_atoi(argv[1]);
 	gettimeofday(&temps, NULL);
-	start = temps.tv_sec * 1000 + temps.tv_usec / 1000;
+	times[0] = temps.tv_sec * 1000 + temps.tv_usec / 1000;
 	cavern = malloc(sizeof(t_philo) * nb_philos);
-	i = 0;
-	while (i < nb_philos)
-	{
-		welcome_philos_in_cavern(&cavern[i], i + 1, argv);
-		if (i < nb_philos - 1 && nb_philos > 1)
-			cavern[i].nextfork = &cavern[i + 1].fork;
-		else
-			cavern[i].nextfork = &cavern[0].fork;
-		cavern[i].birth = temps;
-		pthread_create(&cavern[i].philo, NULL, &routine, &cavern[i]);
-		i++;
-	}
-	i = 0;
-	while (i < nb_philos)
-		pthread_join(cavern[i++].philo, NULL);
-	gettimeofday(&temps, NULL);
-	end = temps.tv_sec * 1000 + temps.tv_usec / 1000;
-	printf("Time elapsed = %u\nstart = %u, end = %u\n", end - start, start, end);
+	chain_philos(nb_philos, cavern, argc, argv);
+	get_away_corpses(nb_philos, cavern);
+	/*gettimeofday(&temps, NULL);
+	times[1] = temps.tv_sec * 1000 + temps.tv_usec / 1000;
+	printf("Time elapsed = %ums\n", times[1] - times[0]);*/
 	return (0);
 }
