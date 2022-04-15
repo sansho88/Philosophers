@@ -21,7 +21,7 @@
 # include <stdlib.h>
 
 typedef struct s_fork{
-	bool	isfree;
+	pthread_mutex_t	isfree;
 }	t_fork;
 
 typedef struct s_philo{

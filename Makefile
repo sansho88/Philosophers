@@ -6,7 +6,7 @@
 #    By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/13 10:32:33 by tgriffit          #+#    #+#              #
-#    Updated: 2022/04/13 11:48:27 by tgriffit         ###   ########.fr        #
+#    Updated: 2022/04/14 13:41:31 by tgriffit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,10 @@ all: $(NAME)
 	$(CC) $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-		$(CC) $(FLAGS) $(SANI) $(OBJS) -o $(NAME)
-		@echo "\033[1;32mphilo is ready."
-		@echo "\033[0mYou can use it like:"
-		@echo "\033[7m./philo [number_of_philosophers] [time_to_die] " \
+		$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+		@echo "philo:\t\033[1;32m[READY]\033[0m"
+		@echo "You can use it like:"
+		@echo "\033[7m./philo [number_of_philosophers] [time_to_die]" \
         "[time_to_eat] [time_to_sleep]" \
         "(number_of_times_each_philosopher_must_eat)\n"
 
