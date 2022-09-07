@@ -6,14 +6,14 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 11:40:08 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/08/25 15:57:16 by tgriffit         ###   ########.fr       */
+/*   Updated: 2022/09/07 19:11:24 by tgriffit         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <string.h>
+# include <string.h>
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
