@@ -20,18 +20,20 @@ int	ft_atoi(const char *str)
 {
 	int	nb;
 	int	signe;
+	int	i;
 
 	signe = 1;
 	nb = 0;
-	while ((*str >= 8 && *str <= 13) || *str == ' ')
-		str++;
-	if (*str == '-' || *str == '+')
+	i = 0;
+	while ((str[i] >= 8 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (*str == '-')
+		if (str[i] == '-')
 			signe *= -1;
-		str++;
+		i++;
 	}
-	while (*str >= '0' && *str <= '9')
-		nb = (nb * 10) + (*str++ - '0');
+	while (str[i] >= '0' && str[i] <= '9')
+		nb = (nb * 10) + (str[i++] - '0');
 	return (nb * signe);
 }
