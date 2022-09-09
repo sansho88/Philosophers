@@ -36,6 +36,6 @@ int	main(int argc, char **argv)
 		return (MALLOC_ERR);
 	place_philos_in_cavern(cavern, &world);
 	light_on_cavern(cavern, &world, world.nb_philos);
-	unchain_philos(cavern);
+	show_real_world(cavern);
 	free(cavern);
 }

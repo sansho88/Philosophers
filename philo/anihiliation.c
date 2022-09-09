@@ -17,14 +17,13 @@
  * If a philo is dead (#health_checker), his death message is sent.
  * @param cavern
  */
-void	unchain_philos(t_philo *cavern)
+void	show_real_world(t_philo *cavern)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < cavern->world->nb_philos)
 	{
-		pthread_join(cavern[i].philo, NULL);
 		pthread_mutex_destroy(&cavern[i].fork);
 		pthread_mutex_destroy(&cavern[i].has_eaten);
 		i++;
@@ -64,5 +63,19 @@ void	announce_death_to_family(t_corpse corpse, t_world *world)
 		printf("[%ld]\t%i %s\n", corpse.time_of_death, corpse.dead_philo->id,
 			"died");
 		pthread_mutex_unlock(&world->god_voice);
+	}
+}
+
+void	unchain_philos(t_philo	*cavern)
+{
+	size_t	i;
+	size_t	max_philos;
+
+	max_philos = cavern->world->nb_philos;
+	i = 0;
+	while (i < max_philos)
+	{
+		pthread_detach(cavern[i].philo);
+		i++;
 	}
 }

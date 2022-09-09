@@ -88,9 +88,10 @@ bool			check_arg_value(const char *argv);
 void			*routine(void	*philosoph);
 
 // ANIHILATION (THE END)
-void			unchain_philos(t_philo *cavern);
+void			show_real_world(t_philo *cavern);
 void			put_in_coffin(t_corpse *corpse, t_philo *philo, t_world *world);
 void			announce_death_to_family(t_corpse corpse, t_world *world);
+void			unchain_philos(t_philo	*cavern);
 
 void			print_act(char *msg, t_philo philo, t_world *world);
 #endif

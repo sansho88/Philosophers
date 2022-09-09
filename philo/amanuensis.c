@@ -76,5 +76,7 @@ bool	check_arg_value(const char *argv)
 		return (false);
 	if (ft_atoi(argv) < 0 || ft_atoi(argv) > 2147483647)
 		return (false);
+	if (!ft_strncmp(argv, "18446744073709551616", 21))
+		return (false);
 	return (true);
 }

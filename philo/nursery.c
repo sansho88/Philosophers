@@ -114,6 +114,7 @@ void	*health_checker(void	*void_world)
 			pthread_mutex_lock(&world->check_go);
 			world->go = false;
 			pthread_mutex_unlock(&world->check_go);
+			unchain_philos(world->cavern);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&world->cavern[i].has_eaten);

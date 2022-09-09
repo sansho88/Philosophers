@@ -25,7 +25,7 @@ void	eat(t_philo *philo)
 	print_act("has taken his fork", *philo, philo->world);
 	if (philo->world->nb_philos == 1)
 	{
-		printf("[%d]\t%i %s\n", philo->lifetime, philo->id, "died");
+		printf("[%ld]\t%i %s\n", philo->lifetime, philo->id, "died");
 		pthread_mutex_lock(&philo->world->check_go);
 		philo->world->go = false;
 		pthread_mutex_unlock(&philo->world->check_go);
