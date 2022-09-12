@@ -6,7 +6,7 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 11:40:08 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/09/07 19:11:24 by tgriffit         ###   ########lyon.fr   */
+/*   Updated: 2022/09/12 11:10:55 by tgriffit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,9 @@ bool			check_arg_value(const char *argv);
 void			*routine(void	*philosoph);
 
 // ANIHILATION (THE END)
-void			show_real_world(t_philo *cavern);
+void			unchain_philos(t_philo *cavern);
 void			put_in_coffin(t_corpse *corpse, t_philo *philo, t_world *world);
 void			announce_death_to_family(t_corpse corpse, t_world *world);
-void			unchain_philos(t_philo	*cavern);
-
+void			show_real_world(t_philo *cavern);
 void			print_act(char *msg, t_philo philo, t_world *world);
 #endif

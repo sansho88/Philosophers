@@ -6,7 +6,7 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:32:21 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/09/08 17:05:54 by tgriffit         ###   ########.fr       */
+/*   Updated: 2022/09/12 11:10:37 by tgriffit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ bool	check_arg_value(const char *argv)
 	if (ft_strchr(argv, '-'))
 		return (false);
 	if (ft_atoi(argv) < 0 || ft_atoi(argv) > 2147483647)
-		return (false);
-	if (!ft_strncmp(argv, "18446744073709551616", 21))
 		return (false);
 	return (true);
 }

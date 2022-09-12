@@ -6,7 +6,7 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 15:29:14 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/09/07 18:37:12 by tgriffit         ###   ########.fr       */
+/*   Updated: 2022/09/12 11:40:05 by tgriffit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	eat(t_philo *philo)
 	print_act("has taken his fork", *philo, philo->world);
 	if (philo->world->nb_philos == 1)
 	{
-		printf("[%ld]\t%i %s\n", philo->lifetime, philo->id, "died");
+		myusleep(philo->world->lifetime);
+		printf("[%d]\t%i %s\n", philo->lifetime, philo->id, "died");
 		pthread_mutex_lock(&philo->world->check_go);
 		philo->world->go = false;
 		pthread_mutex_unlock(&philo->world->check_go);

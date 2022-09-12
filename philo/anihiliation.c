@@ -6,7 +6,7 @@
 /*   By: tgriffit <tgriffit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 14:48:39 by tgriffit          #+#    #+#             */
-/*   Updated: 2022/08/25 14:50:38 by tgriffit         ###   ########.fr       */
+/*   Updated: 2022/09/12 11:38:20 by tgriffit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	show_real_world(t_philo *cavern)
 	size_t	i;
 
 	i = 0;
+	if (cavern->world->nb_philos == 1)
+		pthread_join(cavern[0].philo, NULL);
 	while (i < cavern->world->nb_philos)
 	{
 		pthread_mutex_destroy(&cavern[i].fork);
